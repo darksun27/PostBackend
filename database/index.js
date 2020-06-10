@@ -10,11 +10,7 @@ function connect() {
 }
 
 function disconnect() {
-    mongoose.connection.close().then(()=> {
-        console.log(chalk.green("Database Disconnected Successfully!"));
-    }).catch((err)=> {
-        console.log(chalk.red("Could not disconnect from database!\n Error:\n", err))
-    })
+    mongoose.connection.close();
 }
 
 module.exports = {
