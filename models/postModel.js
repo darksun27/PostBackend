@@ -3,13 +3,10 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema({
     photo_string: String,
     author: {
-        id : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        username: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    views: Number,
+    views: { type: Number, default: 0 },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,12 +14,9 @@ const PostSchema = new mongoose.Schema({
         }
     ],
     comments: [
-        {
-            comment: String,
-            author: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            }
+        { 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
         }
     ],
     created_at: { type: Date, default: Date.now }

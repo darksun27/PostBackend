@@ -1,4 +1,4 @@
-const mongoose = require('mogooose');
+const mongoose = require('mongoose');
 
 const MessSchema = new mongoose.Schema({
     photo_string: String,
