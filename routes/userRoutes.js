@@ -18,6 +18,6 @@ module.exports = (app)=> {
                 res.status(200);
                 res.send(JSON.stringify({ message: "User Registered" }))
             }
-        })
-    })
+        });
+    });
 };
