@@ -23,9 +23,8 @@ require('./routes/postRoutes')(app);
 require('./routes/commentRoutes')(app);
 require('./routes/messRoutes')(app);
 
-const server = app.listen(process.env.PORT || 3000, process.env.IP || "localhost", ()=> {
+const server = app.listen(process.env.PORT || 3000, ()=> {
     console.log("Server Started!");
-    console.log("Listening on PORT ", chalk.inverse.green(server.address().port), "IP ", chalk.inverse.green(server.address().address));
 });
 
 process.on('SIGINT', ()=> {
