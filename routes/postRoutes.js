@@ -61,17 +61,27 @@ module.exports = (app)=> {
     });
 
     app.get('/post/:id/unlike', async (req, res)=> {
+        var data = "";
+        await User.findOne({ enrollment_number: req.query.enrollment_number }, (err, user)=> {
+            if(err) {
+                res.status(500);
+                res.send(JSON.stringify({ message: "User Not Found" }));
+            }else {
+                data = user._id;
+            }
+        })
         await Post.findByIdAndUpdate(req.params.id, {
             $pull: {
-                likes: req.query.enrollment_number
+                likes: data
             }
         },(err)=> {
             if(err) {
+                console.log(err)
                 res.status(500);
-                res.send("Error removing like");
+                res.send(JSON.stringify({ message: "Could not delete like" }));
             }else {
                 res.status(200);
-                res.send("Like Deleted");
+                res.send(JSON.stringify({message: "Like Deleted"}));
             }
         });
     });
