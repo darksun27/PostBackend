@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    photo_string: String,
+    image_string: String,
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
