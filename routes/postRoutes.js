@@ -17,8 +17,8 @@ module.exports = (app)=> {
                 res.status(200);
                 res.send(JSON.stringify({ posts: posts }));
             }
-        })
-    })
+        });
+    });
 
     app.get('/post/:id/view', async (req, res)=> {
         await Post.findById(req.params.id, (err, post)=> {
@@ -32,8 +32,8 @@ module.exports = (app)=> {
                 res.status(200);
                 res.send(JSON.stringify({ message: "View Registered" }));
             }
-        })
-    })
+        });
+    });
 
     app.get('/post/:id/like', async (req, res)=> {
         var data = {
@@ -55,10 +55,26 @@ module.exports = (app)=> {
                         res.status(200);
                         res.send(JSON.stringify({ message: "Like Registered" }));
                     }
-                })
+                });
             }
-        })
-    })
+        });
+    });
+
+    app.get('/post/:id/unlike', async (req, res)=> {
+        await Post.findByIdAndUpdate(req.params.id, {
+            $pull: {
+                likes: req.query.enrollment_number
+            }
+        },(err)=> {
+            if(err) {
+                res.status(500);
+                res.send("Error removing like");
+            }else {
+                res.status(200);
+                res.send("Like Deleted");
+            }
+        });
+    });
 
     app.post('/post/:id/delete', isAuthorized.isAuthorized, async (req, res)=> {
         if(req.locals.authorized) {
