@@ -86,6 +86,7 @@ module.exports = (app)=> {
             }else {
                 var data = {
                     image_string: req.body.image_string,
+                    caption: req.body.caption,
                     author: user
                 }
                 await Post.create(data, (err, post)=> {

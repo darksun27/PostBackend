@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
-    enrollment_number: Number,
+    enrollment_number: { 
+        type: Number,
+        unique: true
+    }, 
     user_type: {
         type: String,
         enum: ['MOD', 'USER'],
