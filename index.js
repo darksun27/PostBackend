@@ -25,6 +25,7 @@ require('./routes/messRoutes')(app);
 
 const server = app.listen(process.env.PORT || 3000, ()=> {
     console.log("Server Started!");
+    console.log("Listening on PORT ", chalk.inverse.green(server.address().port));
 });
 
 process.on('SIGINT', ()=> {

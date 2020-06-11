@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
+const isAuthorized = require('../middlewares/auth')
 
 const User = mongoose.model('User');
 const Post = mongoose.model('Post');
@@ -58,6 +59,23 @@ module.exports = (app)=> {
             }
         })
     })
+
+    app.post('/post/:id/delete', isAuthorized.isAuthorized, async (req, res)=> {
+        if(req.locals.authorized) {
+            await Post.findByIdAndRemove(req.params.id, (err)=> {
+                if(err) {
+                    res.status(500)
+                    res.send(JSON.stringify({ message: "Post Not Deleted" }));
+                }else {
+                    res.status(200)
+                    res.send(JSON.stringify({ message: "Post Deleted" }));
+                }
+            });
+        }else {
+            res.status(401);
+            res.send(JSON.stringify({ message: "User Not Authorized" }));
+        }
+    });
 
     app.post('/post/new', async (req, res)=> {
         await User.findOne({ enrollment_number: req.body.enrollment_number}, async (err, user)=> {
