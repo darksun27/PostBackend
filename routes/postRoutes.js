@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
-const isAuthorized = require('../middlewares/auth')
+const fs = require('fs');
+const crypto = require('crypto');
+const isAuthorized = require('../middlewares/auth');
 
 const User = mongoose.model('User');
 const Post = mongoose.model('Post');
@@ -110,8 +112,24 @@ module.exports = (app)=> {
                 res.status(500);
                 res.send(JSON.stringify({ message: "User Not Found" }));
             }else {
+                const filename_hash = crypto.createHash('sha256');
+                await filename_hash.update(req.body.image_string);
+                const file_path = `/assets/images/posts/${filename_hash.digest('hex')}.png`;
+                await fs.open(process.cwd() + file_path, 'w', function (err, file) {
+                    if(err) {
+                        console.log(chalk.red("Error Uploading Post 1"));
+                        res.send(JSON.stringify({ message: "Error Uploading Post" }));
+                    }
+                }); 
+                await fs.writeFile(process.cwd() + file_path, req.body.image_string, { encoding: 'base64' }, (err)=> {
+                    if(err) {
+                        console.log(err);
+                        console.log(chalk.red("Error Uploading Post 2"));
+                        res.send(JSON.stringify({ message: "Error Uploading Post" }));
+                    }
+                })
                 var data = {
-                    image_string: req.body.image_string,
+                    image_path: file_path,
                     caption: req.body.caption,
                     author: user
                 }

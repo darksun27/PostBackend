@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    image_string: String,
+    image_path: String,
     caption: String,
     author: {
         type: mongoose.Schema.Types.ObjectId,
