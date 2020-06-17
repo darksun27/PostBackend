@@ -117,14 +117,14 @@ module.exports = (app)=> {
                 const file_path = `/assets/images/posts/${filename_hash.digest('hex')}.png`;
                 await fs.open(process.cwd() + file_path, 'w', function (err, file) {
                     if(err) {
-                        console.log(chalk.red("Error Uploading Post 1"));
+                        console.log(chalk.red("Error Uploading Post"));
                         res.send(JSON.stringify({ message: "Error Uploading Post" }));
                     }
                 }); 
                 await fs.writeFile(process.cwd() + file_path, req.body.image_string, { encoding: 'base64' }, (err)=> {
                     if(err) {
                         console.log(err);
-                        console.log(chalk.red("Error Uploading Post 2"));
+                        console.log(chalk.red("Error Uploading Post"));
                         res.send(JSON.stringify({ message: "Error Uploading Post" }));
                     }
                 })
