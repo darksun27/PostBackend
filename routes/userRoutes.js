@@ -7,7 +7,8 @@ module.exports = (app)=> {
     app.post('/registerUser', async (req, res)=> {
         var data = {
             enrollment_number: req.body.enrollment_number,
-            user_type: req.body.user_type || 'USER'
+            user_type: req.body.user_type || 'USER',
+            username: req.body.username
         };
         await User.create(data, (err, user)=> {
             if(err) {

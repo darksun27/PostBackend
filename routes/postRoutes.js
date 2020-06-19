@@ -10,7 +10,7 @@ const Post = mongoose.model('Post');
 module.exports = (app)=> {
 
     app.get('/posts', async (req, res)=> {
-        await Post.find({}).populate("author").populate("likes").populate("comments").exec((err, posts)=> {
+        await Post.find({}).populate("author").populate("likes").populate({ path:"comments", populate: { path: "author" } }).exec((err, posts)=> {
             if(err) {
                 console.log("No Posts Found");
                 res.status(500);
