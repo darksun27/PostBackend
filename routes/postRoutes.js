@@ -156,7 +156,7 @@ module.exports = (app) => {
               }
             );
             var data = {
-              image_path: file_path,
+              image_path: file_path.substr(5), // remove /home
               caption: req.body.caption,
               author: user,
             };
