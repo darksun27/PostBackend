@@ -15,7 +15,7 @@ admin.initializeApp({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer().array());
-app.use("/assets", express.static(__dirname + "/assets"));
+app.use("/assets", express.static("/home/assets"));
 
 connectDB.connect();
 

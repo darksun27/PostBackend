@@ -134,17 +134,17 @@ module.exports = (app) => {
           } else {
             const filename_hash = crypto.createHash("sha256");
             await filename_hash.update(req.body.image_string);
-            const file_path = `~/jiitsocial/assets/images/posts/${filename_hash.digest(
+            const file_path = `/home/assets/images/posts/${filename_hash.digest(
               "hex"
             )}.png`;
-            await fs.open(process.cwd() + file_path, "w", function (err, file) {
+            await fs.open(file_path, "w", function (err, file) {
               if (err) {
                 console.log(chalk.red("Error Uploading Post 1"));
                 res.send(JSON.stringify({ message: "Error Uploading Post" }));
               }
             });
             await fs.writeFile(
-              process.cwd() + file_path,
+              file_path,
               req.body.image_string,
               { encoding: "base64" },
               (err) => {
