@@ -134,7 +134,7 @@ module.exports = (app) => {
           } else {
             const filename_hash = crypto.createHash("sha256");
             await filename_hash.update(req.body.image_string);
-            const file_path = `/assets/images/posts/${filename_hash.digest(
+            const file_path = `~/jiitsocial/assets/images/posts/${filename_hash.digest(
               "hex"
             )}.png`;
             await fs.open(process.cwd() + file_path, "w", function (err, file) {
