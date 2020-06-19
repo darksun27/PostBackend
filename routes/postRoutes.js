@@ -13,7 +13,7 @@ module.exports = (app) => {
     await Post.find({})
       .populate("author")
       .populate("likes")
-      .populate("comments")
+      .populate({ path: "comments", populate: { path: "comments.author" }})
       .exec((err, posts) => {
         if (err) {
           console.log("No Posts Found");
