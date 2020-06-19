@@ -4,9 +4,9 @@ const chalk = require("chalk");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const connectDB = require("./database/index.js");
-const app = express();
 const admin = require("firebase-admin");
 const serviceAccount = require("./firebase/serviceAccount.json");
+const app = express();
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
