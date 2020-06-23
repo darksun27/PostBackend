@@ -21,4 +21,16 @@ module.exports = (app)=> {
             }
         });
     });
+
+    app.post('/changeUsername', async (req, res)=> {
+        await User.findOneAndUpdate({ enrollment_number: req.body.enrollment_number }, { username: req.body.username }, (err, user)=> {
+            if(err) {
+                res.status(500);
+                res.send(JSON.stringify({ message: "Username updation failed" }));
+            } else {
+                res.status(200);
+                res.send(JSON.stringify({ message: "Username updation successful" }));
+            }
+        });
+    });
 };

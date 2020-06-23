@@ -5,7 +5,10 @@ var UserSchema = new mongoose.Schema({
         type: Number,
         unique: true
     },
-    username: String,
+    username: {
+        type: String,
+        unique: true
+    },
     user_type: {
         type: String,
         enum: ['MOD', 'USER'],
