@@ -26,6 +26,22 @@ module.exports = (app) => {
       });
   });
 
+  app.get("/post/:id", async (req, res) => {
+    await Post.findById(req.params.id)
+    .populate("author")
+    .populate("likes")
+    .populate({ path: "comments", populate: { path: "comments.author" }})
+    .exec((err, post) => {
+      if(err) {
+        res.status(500);
+        res.send(JSON.stringify({ message: "Post not found" }));
+      } else {
+        res.status(200);
+        res.send(JSON.stringify({ post: post}));
+      }
+    })
+  })
+
   app.get("/post/:id/view", async (req, res) => {
     await Post.findById(req.params.id, (err, post) => {
       if (err) {

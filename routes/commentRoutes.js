@@ -26,7 +26,7 @@ module.exports = (app) => {
               res.send(JSON.stringify({ message: "User Not Found" }));
             } else {
               data["author"] = user;
-              await Comment.create(data, (err, comment) => {
+              await Comment.create(data, async (err, comment) => {
                 if (err) {
                   console.log(chalk.red("Comment not registered"));
                   res.status(500);
@@ -35,18 +35,16 @@ module.exports = (app) => {
                   );
                 }
                 post.comments.push(comment);
-                post.save();
-                res.status(200);
-                res.send(JSON.stringify({ message: "Comment Registered" }));
+                await post.save();
+                await Post.findById(req.params.id).populate({ path: "comments", populate: { path: "comments.author" }}).exec((err, post)=> {
+                  res.status(200);
+                  res.send(JSON.stringify({ comments: post.comments, message: "Comment Registered" }));
+                })
               });
             }
           }
         );
       }
-      post.comments.push(comment);
-      post.save();
-      res.status(200);
-      res.send(JSON.stringify({ message: "Comment Registered" }));
     });
   });
 
