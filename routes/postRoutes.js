@@ -13,7 +13,10 @@ module.exports = (app) => {
     await Post.find({})
       .populate("author", "username")
       .populate("likes")
-      .populate({ path: "comments", populate: { path: "author", model: "User" }})
+      .populate({
+        path: "comments",
+        populate: { path: "author", model: "User" },
+      })
       .exec((err, posts) => {
         if (err) {
           console.log("No Posts Found");
@@ -28,19 +31,19 @@ module.exports = (app) => {
 
   app.get("/post/:id", async (req, res) => {
     await Post.findById(req.params.id)
-    .populate("author")
-    .populate("likes")
-    .populate({ path: "comments", populate: { path: "comments.author" }})
-    .exec((err, post) => {
-      if(err) {
-        res.status(500);
-        res.send(JSON.stringify({ message: "Post not found" }));
-      } else {
-        res.status(200);
-        res.send(JSON.stringify({ post: post}));
-      }
-    })
-  })
+      .populate("author")
+      .populate("likes")
+      .populate({ path: "comments", populate: { path: "comments.author" } })
+      .exec((err, post) => {
+        if (err) {
+          res.status(500);
+          res.send(JSON.stringify({ message: "Post not found" }));
+        } else {
+          res.status(200);
+          res.send(JSON.stringify({ post: post }));
+        }
+      });
+  });
 
   app.get("/post/:id/view", async (req, res) => {
     await Post.findById(req.params.id, (err, post) => {
@@ -150,7 +153,7 @@ module.exports = (app) => {
           } else {
             const filename_hash = crypto.createHash("sha256");
             await filename_hash.update(req.body.image_string);
-            const file_path = `/assets/images/posts/${filename_hash.digest(
+            const file_path = `/home/assets/images/posts/${filename_hash.digest(
               "hex"
             )}.png`;
             await fs.open(process.cwd() + file_path, "w", function (err, file) {
