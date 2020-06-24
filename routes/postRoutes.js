@@ -11,7 +11,7 @@ const Post = mongoose.model("Post");
 module.exports = (app) => {
   app.get("/posts", async (req, res) => {
     await Post.find({})
-      .populate("author")
+      .populate("author", "username")
       .populate("likes")
       .populate({ path: "comments", populate: { path: "author", model: "User" }})
       .exec((err, posts) => {
