@@ -13,7 +13,7 @@ module.exports = (app) => {
     await Post.find({})
       .populate("author")
       .populate("likes")
-      .populate({ path: "comments", populate: { path: "comments.author" }})
+      .populate({ path: "comments", populate: { path: "author", model: "User" }})
       .exec((err, posts) => {
         if (err) {
           console.log("No Posts Found");
@@ -150,17 +150,17 @@ module.exports = (app) => {
           } else {
             const filename_hash = crypto.createHash("sha256");
             await filename_hash.update(req.body.image_string);
-            const file_path = `/home/assets/images/posts/${filename_hash.digest(
+            const file_path = `/assets/images/posts/${filename_hash.digest(
               "hex"
             )}.png`;
-            await fs.open(file_path, "w", function (err, file) {
+            await fs.open(process.cwd() + file_path, "w", function (err, file) {
               if (err) {
                 console.log(chalk.red("Error Uploading Post 1"));
                 res.send(JSON.stringify({ message: "Error Uploading Post" }));
               }
             });
             await fs.writeFile(
-              file_path,
+              process.cwd() + file_path,
               req.body.image_string,
               { encoding: "base64" },
               (err) => {

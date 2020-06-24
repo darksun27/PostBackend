@@ -13,7 +13,8 @@ var UserSchema = new mongoose.Schema({
         type: String,
         enum: ['MOD', 'USER'],
         default: 'USER'
-    }
+    },
+    isRegistered: Boolean
 });
 
 module.exports = mongoose.model("User", UserSchema);

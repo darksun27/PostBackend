@@ -36,7 +36,7 @@ module.exports = (app) => {
                 }
                 post.comments.push(comment);
                 await post.save();
-                await Post.findById(req.params.id).populate({ path: "comments", populate: { path: "comments.author" }}).exec((err, post)=> {
+                await Post.findById(req.params.id).populate({ path: "comments", populate: { path: "author", model: "User" }}).exec((err, post)=> {
                   res.status(200);
                   res.send(JSON.stringify({ comments: post.comments, message: "Comment Registered" }));
                 })
