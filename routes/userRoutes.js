@@ -10,16 +10,27 @@ module.exports = (app)=> {
             user_type: req.body.user_type || 'USER',
             username: req.body.username
         };
-        await User.create(data, (err, user)=> {
+        await User.find({ enrollment_number: data.enrollment_number }, async (err, user)=> {
             if(err) {
-                console.log(chalk.red("Error Registering User"), chalk.yellow(data.enrollment_number));
-                res.send(JSON.stringify({ message: "Error Registering User" }));
+
             }else {
-                console.log(chalk.green("User Successfully Registered"));
-                res.status(200);
-                res.send(JSON.stringify({ message: "User Registered" }))
+                if(user.length == 0) {
+                    await User.create(data, (err, user)=> {
+                        if(err) {
+                            console.log(chalk.red("Error Registering User"), chalk.yellow(data.enrollment_number));
+                            res.send(JSON.stringify({ message: "Error Registering User" }));
+                        }else {
+                            console.log(chalk.green("User Successfully Registered"));
+                            res.status(200);
+                            res.send(JSON.stringify({ message: "User Registered" }))
+                        }
+                    });
+                }else {
+                    res.status(200);
+                    res.send(JSON.stringify({ message: "User Already Registered", user: user}));
+                }
             }
-        });
+        })
     });
 
     app.post('/changeUsername', async (req, res)=> {
