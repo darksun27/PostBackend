@@ -14,7 +14,7 @@ var UserSchema = new mongoose.Schema({
         enum: ['MOD', 'USER'],
         default: 'USER'
     },
-    isRegistered: {
+    isVerified: {
         type: Boolean,
         default: false
     }
