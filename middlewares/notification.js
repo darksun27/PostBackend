@@ -42,7 +42,7 @@ const postLikedNotifications = async (req, res, next) => {
   let title = `${current_like_enrollment_number} liked your post`;
   let data = {
     data: `${current_like_enrollment_number} liked your post`,
-    navigation: { drawer: "JIIT Social", screen: "jiitsocial" },
+    navigation: { drawer: "JIIT Social", screen: "viewpost", postId: _id },
   };
 
   let tokens = await getIndividualTokenFromFirebase(author_enrollment_number);
@@ -86,7 +86,7 @@ const newCommentNotifications = async (req, res, next) => {
   let title = `${current_comment_enrollment_number} commented on your post`;
   let data = {
     data: `${current_comment_enrollment_number} commented on your post`,
-    navigation: { drawer: "JIIT Social", screen: "jiitsocial" },
+    navigation: { drawer: "JIIT Social", screen: "viewpost", postId: _id },
   };
 
   let tokens = await getIndividualTokenFromFirebase(author_enrollment_number);
