@@ -80,7 +80,7 @@ const appNotifications = async (req, res, next) => {
   let body = notificationBody;
   let title = notificationTitle;
   let data = {
-    data: notificationData,
+    data: notificationBody,
     navigation: { drawer, screen },
   };
   let tokens = await getAllTokensFromFirebase();
