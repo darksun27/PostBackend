@@ -11,6 +11,7 @@ const getIndividualTokenFromFirebase = async (enrollment_number) => {
     .database()
     .ref(`notification/individual/${enrollment_number}`)
     .once("value");
+  if (!individualTokenSnapshot.val()) return "";
   let { token } = individualTokenSnapshot.val();
   return [token];
 };
