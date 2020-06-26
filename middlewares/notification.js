@@ -56,7 +56,6 @@ const newPostNotifications = async (req, res, next) => {
   let {
     body: { enrollment_number, caption, username },
   } = req;
-
   let body = `${caption}`;
   let title = `${username} added a new post`;
   let data = {
