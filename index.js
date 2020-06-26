@@ -16,7 +16,7 @@ admin.initializeApp({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   multer({
-    limits: { fieldSize: 2 * 1024 * 1024 },
+    limits: { fieldSize: 8 * 1024 * 1024 },
   }).array()
 );
 app.use("/assets", express.static("/home/assets"));
