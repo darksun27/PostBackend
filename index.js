@@ -30,6 +30,7 @@ require("./routes/userRoutes")(app);
 require("./routes/postRoutes")(app);
 require("./routes/commentRoutes")(app);
 require("./routes/messRoutes")(app);
+require("./routes/appNotificationRoutes")(app);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log("Server Started!");

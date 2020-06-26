@@ -30,7 +30,7 @@ const getAllTokensFromFirebase = async () => {
 
 const postLikedNotifications = async (req, res, next) => {
   let {
-    query: { enrollment_number: current_like_enrollment_number },
+    query: { username: current_like_username },
     params: { id: _id },
   } = req;
   let { author, caption } = await Post.findOne({ _id });
@@ -39,9 +39,9 @@ const postLikedNotifications = async (req, res, next) => {
   });
 
   let body = `${caption}`;
-  let title = `${current_like_enrollment_number} liked your post`;
+  let title = `${current_like_username} liked your post`;
   let data = {
-    data: `${current_like_enrollment_number} liked your post`,
+    data: `${current_like_username} liked your post`,
     navigation: { drawer: "JIIT Social", screen: "viewpost", postId: _id },
   };
 
@@ -53,13 +53,13 @@ const postLikedNotifications = async (req, res, next) => {
 
 const newPostNotifications = async (req, res, next) => {
   let {
-    body: { enrollment_number, caption },
+    body: { enrollment_number, caption, username },
   } = req;
 
   let body = `${caption}`;
-  let title = `${enrollment_number} added a new post`;
+  let title = `${username} added a new post`;
   let data = {
-    data: `${enrollment_number} added a new post`,
+    data: `${username} added a new post`,
     navigation: { drawer: "JIIT Social", screen: "jiitsocial" },
   };
 
@@ -69,12 +69,28 @@ const newPostNotifications = async (req, res, next) => {
   next();
 };
 
+const appNotifications = async (req, res, next) => {
+  let {
+    body: { password, drawer, screen, notificationBody, notificationTitle },
+  } = req;
+  if (password !== process.env.MODERATOR_PASSWORD) {
+    next();
+    return;
+  }
+  let body = notificationBody;
+  let title = notificationTitle;
+  let data = {
+    data: notificationData,
+    navigation: { drawer, screen },
+  };
+  let tokens = await getAllTokensFromFirebase();
+  sendNotification(data, tokens, body, title);
+  next();
+};
+
 const newCommentNotifications = async (req, res, next) => {
   let {
-    body: {
-      enrollment_number: current_comment_enrollment_number,
-      comment_body,
-    },
+    body: { comment_body, username },
     params: { id: _id },
   } = req;
   console.log(_id);
@@ -83,9 +99,9 @@ const newCommentNotifications = async (req, res, next) => {
     _id: author,
   });
   let body = `${comment_body}`;
-  let title = `${current_comment_enrollment_number} commented on your post`;
+  let title = `${username} commented on your post`;
   let data = {
-    data: `${current_comment_enrollment_number} commented on your post`,
+    data: `${username} commented on your post`,
     navigation: { drawer: "JIIT Social", screen: "viewpost", postId: _id },
   };
 
@@ -99,4 +115,5 @@ module.exports = {
   postLikedNotifications,
   newPostNotifications,
   newCommentNotifications,
+  appNotifications,
 };
