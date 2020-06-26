@@ -14,7 +14,11 @@ admin.initializeApp({
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer().array());
+app.use(
+  multer({
+    limits: { fieldSize: 8 * 1024 * 1024 },
+  }).array()
+);
 app.use("/assets", express.static("/home/assets"));
 
 connectDB.connect();
@@ -30,6 +34,7 @@ require("./routes/userRoutes")(app);
 require("./routes/postRoutes")(app);
 require("./routes/commentRoutes")(app);
 require("./routes/messRoutes")(app);
+require("./routes/appNotificationRoutes")(app);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log("Server Started!");
